@@ -1,3 +1,352 @@
 <!DOCTYPE html>
-<html><head><meta charset="utf-8"><title>TH Booking</title></head>
-<body><h1>coming soon</h1></body></html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+<title>Truefitt&Hill 英伦男士理容 · 在线预约</title>
+<style>
+  :root{
+    --bg:#F7F4EF; --card:#FFFFFF; --ink:#2A2724; --ink2:#6B6259; --ink3:#9A9188;
+    --gold:#B08050; --gold-l:#C9A063; --line:#EFE8DE;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif}
+  .wrap{max-width:520px;margin:0 auto;padding:0 16px 120px}
+  .hero{background:linear-gradient(155deg,#433B36,#2A2522 55%,#1F1B19);color:#F6EEE1;padding:28px 22px 30px;border-radius:0 0 22px 22px;margin:0 -16px 0}
+  .brand{font-size:12px;letter-spacing:4px;color:var(--gold-l)}
+  .store{font-size:25px;font-weight:600;margin-top:12px;line-height:1.3}
+  .hours{font-size:13px;color:var(--gold-l);margin-top:8px}
+  .tags{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .tag{font-size:11px;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,.09);color:#E8DDCE}
+  .sec-t{font-size:13px;color:var(--ink3);margin:22px 2px 10px}
+  .svc{background:var(--card);border-radius:16px;padding:16px;margin-bottom:10px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 12px rgba(60,45,30,.05)}
+  .svc.on{outline:2px solid var(--ink)}
+  .svc .n{font-size:16px;font-weight:600}
+  .svc .d{font-size:12px;color:var(--ink3);margin-top:3px}
+  .svc .m{font-size:11px;color:var(--gold);background:#FAF3E8;padding:2px 8px;border-radius:5px;display:inline-block;margin-top:7px}
+  .svc .arrow{color:#D3C6B6;font-size:22px;margin-left:auto}
+  .dates{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch}
+  .date{flex:0 0 62px;text-align:center;padding:10px 0 8px;border-radius:12px;background:#fff;border:1px solid var(--line)}
+  .date .w{font-size:11px;color:var(--ink3)}
+  .date .d{font-size:14px;font-weight:500;margin-top:3px}
+  .date.on{background:var(--ink);border-color:var(--ink)}
+  .date.on .w{color:var(--gold-l)} .date.on .d{color:#F6EEE1}
+  .date.dead{opacity:.4}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+  .slot{padding:12px 0 10px;text-align:center;background:#fff;border:1px solid var(--line);border-radius:12px}
+  .slot .t{font-size:15px;font-weight:500}
+  .slot .l{font-size:10px;color:var(--ink3);margin-top:3px}
+  .slot.on{background:var(--ink);border-color:var(--ink)}
+  .slot.on .t{color:#F6EEE1} .slot.on .l{color:var(--gold-l)}
+  .slot.off{background:#F4F0EA;border-color:#F4F0EA}
+  .slot.off .t{color:#BEB5AB} .slot.off .l{color:#C8BFB5}
+  .field{background:#fff;border-radius:16px;padding:14px 16px;margin-bottom:10px}
+  .field label{font-size:12px;color:var(--ink2);display:block}
+  .field input,.field textarea{width:100%;border:0;outline:0;font-size:16px;margin-top:6px;font-family:inherit;background:transparent;color:var(--ink)}
+  .field textarea{min-height:64px;resize:none}
+  .bar{position:fixed;left:0;right:0;bottom:0;background:rgba(247,244,239,.97);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom));z-index:9}
+  .bar-in{max-width:520px;margin:0 auto;display:flex;gap:10px;align-items:center}
+  .sum{flex:1;min-width:0}
+  .sum .k{font-size:11px;color:var(--ink3)}
+  .sum .v{font-size:15px;font-weight:600;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sum .v.gray{color:#BEB5AB;font-weight:400}
+  .btn{background:linear-gradient(135deg,#3E3733,#262220);color:#F3E7D6;border:0;border-radius:24px;height:48px;padding:0 26px;font-size:15px;font-weight:500;letter-spacing:.5px}
+  .btn:disabled{opacity:.35}
+  .btn.ghost{background:transparent;border:1px solid #DCD3C7;color:var(--ink2);height:42px;font-size:13px;border-radius:21px}
+  .empty{text-align:center;color:var(--ink3);font-size:13px;padding:40px 0}
+  .ok{text-align:center;padding:44px 20px 10px}
+  .ok .tick{width:64px;height:64px;line-height:62px;border-radius:50%;margin:0 auto;background:rgba(201,160,99,.14);border:1px solid rgba(201,160,99,.5);color:var(--gold);font-size:30px}
+  .ok .h{font-size:20px;font-weight:600;margin-top:16px}
+  .ok .s{font-size:13px;color:var(--ink3);margin-top:6px}
+  .tick-card{background:#fff;border-radius:16px;padding:18px;margin-top:-14px;box-shadow:0 4px 20px rgba(60,45,30,.07)}
+  .kv{display:flex;margin-bottom:10px;font-size:14px}
+  .kv .k{width:64px;color:var(--ink3);font-size:13px;flex:none}
+  .kv .v{flex:1}
+  .kv .v.gold{color:var(--gold);font-weight:600}
+  .dash{height:1px;margin:12px 0;background-image:linear-gradient(to right,#E5DCD0 60%,transparent 0);background-size:8px 1px;background-repeat:repeat-x}
+  .note{background:#FDF8F0;border:1px solid #F0E4D0;border-radius:14px;padding:14px 16px;margin-top:12px;font-size:12px;color:#8A7358;line-height:1.9}
+  .toast{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.8);color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;z-index:99;opacity:0;transition:.2s;pointer-events:none;max-width:80%;text-align:center}
+  .toast.show{opacity:1}
+  .link{color:var(--gold);font-size:13px}
+  .mylist{background:#fff;border-radius:16px;padding:4px 16px;margin-bottom:10px}
+  .myrow{padding:14px 0;border-bottom:1px solid #F4EFE7;display:flex;justify-content:space-between;gap:10px}
+  .myrow:last-child{border-bottom:0}
+  .myrow .l1{font-size:15px;font-weight:600}
+  .myrow .l2{font-size:12px;color:var(--ink3);margin-top:3px}
+  .st{font-size:11px;padding:3px 9px;border-radius:20px;height:fit-content;white-space:nowrap}
+  .st.s2{background:#EAF3EA;color:#3C7A45}.st.s1{background:#FDF3E3;color:#A9762A}
+  .st.s4{background:#EFEFEF;color:#6B6259}.st.s5,.st.s6{background:#F6EAEA;color:#9B5656}
+  .back{font-size:13px;color:var(--ink3);margin-top:18px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  // 云托管网关给所有响应加了 content-disposition: attachment，
+  // 微信内直接打开会被当文件下载，因此 H5 托管在外部 CDN，接口指向云托管绝对地址。
+  var CLOUD = 'https://appointment-354184-7-1541041395.sh.run.tcloudbase.com';
+  var API = /tcloudbase\.com$/.test(location.host) ? '/api/c/v1' : CLOUD + '/api/c/v1';
+  var TOKEN_KEY = 'h5_token', DEV_KEY = 'h5_dev', CART = null;
+  var state = {
+    step: 'home',
+    store: null, services: [], hoursText: '',
+    service: null, dates: [], date: '', slots: [], time: '',
+    name: '', phone: '', remark: '',
+    detail: null, myList: []
+  };
+
+  function $(id) { return document.getElementById(id); }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
+  var toastTimer;
+  function toast(msg) {
+    var t = $('toast'); t.textContent = msg; t.classList.add('show');
+    clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.classList.remove('show'); }, 1800);
+  }
+
+  function deviceId() {
+    var d = localStorage.getItem(DEV_KEY);
+    if (!d) {
+      d = 'web_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
+      localStorage.setItem(DEV_KEY, d);
+    }
+    return d;
+  }
+
+  function req(path, opt) {
+    opt = opt || {};
+    var headers = { 'content-type': 'application/json', 'x-store-id': '1' };
+    var tk = localStorage.getItem(TOKEN_KEY);
+    if (tk) headers.Authorization = 'Bearer ' + tk;
+    return fetch(API + path, {
+      method: opt.method || 'GET',
+      headers: headers,
+      body: opt.body ? JSON.stringify(opt.body) : undefined
+    }).then(function (r) {
+      return r.json().then(function (j) {
+        if (j.code === 0) return j.data;
+        var e = new Error(j.message || '请求失败'); e.code = j.code; throw e;
+      });
+    });
+  }
+
+  function ensureLogin() {
+    if (localStorage.getItem(TOKEN_KEY)) return Promise.resolve();
+    return req('/auth/login', { method: 'POST', body: { code: deviceId() } })
+      .then(function (d) { localStorage.setItem(TOKEN_KEY, d.token); })
+      .catch(function () { /* 首次进入允许失败，下单前会再试 */ });
+  }
+
+  // ---------- 渲染 ----------
+  function render() {
+    var v = state.step;
+    if (v === 'home') return renderHome();
+    if (v === 'slot') return renderSlot();
+    if (v === 'form') return renderForm();
+    if (v === 'success') return renderSuccess();
+    if (v === 'my') return renderMy();
+  }
+
+  function renderHome() {
+    var s = state.store || {};
+    var h = '';
+    h += '<div class="hero">';
+    h += '<div class="brand">SALON · 在线预约</div>';
+    h += '<div class="store">' + esc(s.name || '加载中…') + '</div>';
+    h += '<div class="hours">' + esc(state.hoursText) + '</div>';
+    h += '<div class="tags"><span class="tag">扫码即约</span><span class="tag">每时段 ' + (s.capacity || 3) + ' 位</span><span class="tag">提前 ' + (s.advanceDays || 7) + ' 天</span></div>';
+    h += '</div>';
+    if (s.notice) h += '<div class="note">' + esc(s.notice) + '</div>';
+
+    h += '<div class="sec-t">选择服务项目</div>';
+    state.services.forEach(function (it) {
+      h += '<div class="svc" data-svc="' + it.id + '">';
+      h += '<div><div class="n">' + esc(it.name) + '</div>';
+      if (it.description) h += '<div class="d">' + esc(it.description) + '</div>';
+      h += '<div class="m">' + it.durationMinutes + ' 分钟' + (it.price ? ' · ¥' + it.price : '') + '</div></div>';
+      h += '<div class="arrow">›</div></div>';
+    });
+    h += '<div class="back"><span class="link" id="goMy">查看我的预约</span></div>';
+    $('app').innerHTML = h;
+    document.querySelectorAll('[data-svc]').forEach(function (el) {
+      el.onclick = function () { pickService(+el.getAttribute('data-svc')); };
+    });
+    $('goMy').onclick = function () { state.step = 'my'; loadMy(); };
+  }
+
+  function renderSlot() {
+    var h = '';
+    h += '<div class="hero" style="padding:20px 22px 22px"><div class="brand">' + esc(state.service.name) + '</div>';
+    h += '<div class="hours">' + state.service.durationMinutes + ' 分钟' + (state.service.price ? ' · ¥' + state.service.price : '') + '</div></div>';
+    h += '<div class="sec-t">选择日期</div><div class="dates" id="dates">';
+    state.dates.forEach(function (d) {
+      h += '<div class="date ' + (d.date === state.date ? 'on ' : '') + (d.available ? '' : 'dead') + '" data-date="' + d.date + '">';
+      h += '<div class="w">' + esc(d.weekday) + '</div><div class="d">' + esc(d.label) + '</div></div>';
+    });
+    h += '</div>';
+    h += '<div class="sec-t">选择时间</div>';
+    if (!state.slots.length) h += '<div class="empty">当日无可约时段</div>';
+    h += '<div class="grid" id="grid">';
+    state.slots.forEach(function (s) {
+      h += '<div class="slot ' + (s.available ? '' : 'off ') + (s.startTime === state.time ? 'on' : '') + '" data-t="' + s.startTime + '" data-a="' + (s.available ? 1 : 0) + '">';
+      h += '<div class="t">' + s.startTime + '</div><div class="l">' + esc(s.label) + '</div></div>';
+    });
+    h += '</div>';
+    h += '<div class="bar"><div class="bar-in"><div class="sum"><div class="k">已选时间</div>';
+    h += '<div class="v ' + (state.time ? '' : 'gray') + '">' + (state.time ? esc(state.dateLabel + ' ' + state.time) : '请选择时间') + '</div></div>';
+    h += '<button class="btn" id="next" ' + (state.time ? '' : 'disabled') + '>下一步</button></div></div>';
+    $('app').innerHTML = h;
+    document.querySelectorAll('[data-date]').forEach(function (el) {
+      el.onclick = function () {
+        var d = el.getAttribute('data-date');
+        var it = state.dates.filter(function (x) { return x.date === d; })[0];
+        if (it && !it.available) return toast('当日已约满或休息');
+        state.date = d; state.dateLabel = it.weekday + ' ' + it.label; state.time = '';
+        loadSlots(d);
+      };
+    });
+    document.querySelectorAll('[data-t]').forEach(function (el) {
+      el.onclick = function () {
+        if (el.getAttribute('data-a') !== '1') return toast('该时段不可预约');
+        state.time = el.getAttribute('data-t'); renderSlot();
+      };
+    });
+    if ($('next')) $('next').onclick = function () { state.step = 'form'; render(); };
+  }
+
+  function renderForm() {
+    var h = '';
+    h += '<div class="hero" style="padding:20px 22px 24px">';
+    h += '<div class="brand">' + esc(state.service.name) + '</div>';
+    h += '<div class="store" style="font-size:20px">' + esc(state.dateLabel + ' ' + state.time) + '</div></div>';
+    h += '<div class="sec-t">填写信息</div>';
+    h += '<div class="field"><label>姓名 *</label><input id="f-name" maxlength="16" placeholder="您的称呼" value="' + esc(state.name) + '"></div>';
+    h += '<div class="field"><label>手机号 *</label><input id="f-phone" type="tel" maxlength="11" placeholder="11 位手机号" value="' + esc(state.phone) + '"></div>';
+    h += '<div class="field"><label>备注</label><textarea id="f-remark" maxlength="200" placeholder="发质情况、护理偏好、过敏信息（选填）">' + esc(state.remark) + '</textarea></div>';
+    h += '<div class="note">提交即表示同意预约与取消规则：开始前 2 小时内不可自助取消，单个预约最多改约 2 次。</div>';
+    h += '<div class="bar"><div class="bar-in"><div class="sum"><div class="k">预约时间</div><div class="v">' + esc(state.dateLabel + ' ' + state.time) + '</div></div>';
+    h += '<button class="btn" id="submit">确认预约</button></div></div>';
+    $('app').innerHTML = h;
+    $('f-name').oninput = function (e) { state.name = e.target.value; };
+    $('f-phone').oninput = function (e) { state.phone = e.target.value; };
+    $('f-remark').oninput = function (e) { state.remark = e.target.value; };
+    $('submit').onclick = submit;
+  }
+
+  function renderSuccess() {
+    var d = state.detail || {};
+    var h = '<div class="ok"><div class="tick">✓</div><div class="h">预约成功</div><div class="s">已为您保留名额，请按时到店</div></div>';
+    h += '<div class="tick-card">';
+    h += '<div class="kv"><div class="k">时间</div><div class="v gold">' + esc(state.dateLabel + ' ' + d.startTime) + '</div></div>';
+    h += '<div class="kv"><div class="k">项目</div><div class="v">' + esc(d.serviceName) + '</div></div>';
+    h += '<div class="kv"><div class="k">预约号</div><div class="v">' + esc(d.appointmentNo) + '</div></div>';
+    h += '<div class="kv"><div class="k">门店</div><div class="v">' + esc((d.store || {}).name || '') + '</div></div>';
+    h += '</div>';
+    h += '<div class="note">· 请提前 5 分钟到店，出示预约号<br>· 如需改约或取消，请回到「我的预约」操作<br>· 迟到超过 15 分钟门店有权调整顺序</div>';
+    h += '<div class="bar"><div class="bar-in"><button class="btn" style="flex:1" id="goMy2">查看我的预约</button></div></div>';
+    $('app').innerHTML = h;
+    $('goMy2').onclick = function () { state.step = 'my'; loadMy(); };
+  }
+
+  function renderMy() {
+    var h = '<div class="hero" style="padding:22px"><div class="brand">我的预约</div></div>';
+    h += '<div class="sec-t">待服务 / 最近记录</div>';
+    if (!state.myList.length) h += '<div class="empty">还没有预约记录</div>';
+    else {
+      h += '<div class="mylist">';
+      state.myList.forEach(function (a) {
+        h += '<div class="myrow"><div><div class="l1">' + esc(a.dateLabel + ' ' + a.startTime) + '</div>';
+        h += '<div class="l2">' + esc(a.serviceName) + ' · ' + esc(a.appointmentNo) + '</div></div>';
+        h += '<div class="st s' + a.status + '">' + esc(a.statusText) + '</div></div>';
+      });
+      h += '</div>';
+    }
+    h += '<div class="back"><span class="link" id="home">返回首页</span></div>';
+    $('app').innerHTML = h;
+    $('home').onclick = function () { state.step = 'home'; render(); };
+  }
+
+  // ---------- 数据 ----------
+  function loadStore() {
+    return req('/store').then(function (res) {
+      state.store = res.store; state.services = res.services || [];
+      var open = (res.businessHours || []).filter(function (x) { return x.isOpen; });
+      var W = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+      if (open.length === 7 && open.every(function (x) { return x.openTime === open[0].openTime && x.closeTime === open[0].closeTime; }))
+        state.hoursText = '每日 ' + open[0].openTime + ' - ' + open[0].closeTime;
+      else
+        state.hoursText = open.map(function (x) { return W[x.weekday] + ' ' + x.openTime + '-' + x.closeTime; }).join('  ');
+    }).catch(function () { toast('门店信息加载失败'); });
+  }
+
+  function pickService(id) {
+    state.service = state.services.filter(function (x) { return x.id === id; })[0];
+    state.step = 'slot'; state.time = ''; state.slots = [];
+    renderSlot();
+    req('/calendar?serviceId=' + id + '&days=7').then(function (list) {
+      state.dates = list || [];
+      var first = state.dates.filter(function (d) { return d.available; })[0] || state.dates[0];
+      if (!first) { toast('近期暂无可约日期'); return; }
+      state.date = first.date; state.dateLabel = first.weekday + ' ' + first.label;
+      renderSlot(); loadSlots(first.date);
+    });
+  }
+
+  function loadSlots(date) {
+    req('/slots?date=' + date + '&serviceId=' + state.service.id).then(function (res) {
+      state.slots = (res.slots || []).map(function (s) {
+        var label = s.reason === 'full' ? '已满'
+          : s.reason === 'insufficient' ? '名额不足'
+          : s.reason === 'expired' ? '已过'
+          : s.reason === 'closed' ? '关闭'
+          : '余 ' + Math.max(s.capacity - s.booked, 0);
+        return { startTime: s.startTime, available: s.available, label: label };
+      });
+      renderSlot();
+    }).catch(function () { toast('时段加载失败'); });
+  }
+
+  function submit() {
+    var btn = $('submit');
+    if (!state.name.trim()) return toast('请填写姓名');
+    if (!/^1[3-9]\d{9}$/.test(state.phone)) return toast('请输入正确的 11 位手机号');
+    btn.disabled = true; btn.textContent = '提交中…';
+
+    ensureLogin().then(function () {
+      return req('/appointments', {
+        method: 'POST',
+        body: {
+          serviceId: state.service.id, date: state.date, startTime: state.time,
+          name: state.name.trim(), phone: state.phone, remark: state.remark.trim()
+        }
+      });
+    }).then(function (d) {
+      state.detail = d; state.step = 'success'; render();
+    }).catch(function (e) {
+      btn.disabled = false; btn.textContent = '确认预约';
+      var m = { 3001: '该时段刚被约满，请重新选择', 3003: '您在该时间点已有预约', 3002: '该时段已过预约截止时间', 3005: '手机号预约过于频繁' };
+      toast(m[e.code] || e.message || '提交失败');
+      if (e.code === 3001 || e.code === 3002) { state.step = 'slot'; renderSlot(); }
+    });
+  }
+
+  function loadMy() {
+    ensureLogin().then(function () { return req('/appointments?group=active&page=1&size=20'); })
+      .then(function (res) {
+        var list = (res.list || []).concat((res.list || []).length ? [] : []);
+        state.myList = list.map(function (a) {
+          var p = a.date.split('-');
+          return { date: a.date, dateLabel: p[1] + '/' + p[2], startTime: a.startTime, serviceName: a.serviceName, appointmentNo: a.appointmentNo, status: a.status, statusText: a.statusText };
+        });
+        renderMy();
+      }).catch(function () { toast('加载失败'); });
+  }
+
+  // ---------- 启动 ----------
+  ensureLogin().then(loadStore).then(function () { render(); });
+})();
+</script>
+</body>
+</html>
